@@ -45,7 +45,4 @@ const styles = StyleSheet.create({
   },
   selfBubble: { backgroundColor: '#007AFF' },
   otherBubble: { backgroundColor: '#f1f1f1' },
-  time: { fontSize: 10, marginTop: 4 },
-  selfTime: { color: '#e0e0e0', textAlign: 'right' },
-  otherTime: { color: '#999', textAlign: 'left' },
 });
