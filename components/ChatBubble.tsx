@@ -18,17 +18,14 @@ export default function ChatBubble({ message }: ChatBubbleProps) {
 
   return (
     <View style={[styles.container, isSelf ? styles.self : styles.other]}>
-      <Image source={{ uri: message.sender.image }} style={styles.avatar} />
+      {!isSelf && (
+        <Image source={{ uri: message.sender.image }} style={styles.avatar} />
+      )}
       <View
         style={[styles.bubble, isSelf ? styles.selfBubble : styles.otherBubble]}
       >
         <Text style={{ color: isSelf ? '#fff' : '#000' }}>
           {message.message.replace(/<br>/g, '\n')}
-        </Text>
-        <Text
-          style={[styles.time, isSelf ? styles.selfTime : styles.otherTime]}
-        >
-          {message.time.slice(11)}
         </Text>
       </View>
     </View>
@@ -36,7 +33,7 @@ export default function ChatBubble({ message }: ChatBubbleProps) {
 }
 
 const styles = StyleSheet.create({
-  container: { flexDirection: 'row', margin: 8, alignItems: 'flex-end' },
+  container: { flexDirection: 'row', margin: 8, alignItems: 'flex-start' },
   self: { alignSelf: 'flex-end', flexDirection: 'row-reverse' },
   other: { alignSelf: 'flex-start' },
   avatar: { width: 32, height: 32, borderRadius: 16 },

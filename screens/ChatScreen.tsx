@@ -1,16 +1,18 @@
 import React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
-import ChatHeader from '../components/ChatHeader';
 import ChatInputBar from '../components/ChatInputBar';
 import ChatBubble from '../components/ChatBubble';
 import useChat from '../hooks/useChat';
+import useHeader from '../hooks/useHeader';
+import ChatHeader from '../components/ChatHeader';
 
 export default function ChatScreen() {
   const { messages, fetchNextPage } = useChat();
+  const { from, to, name } = useHeader();
 
   return (
     <View style={styles.container}>
-      <ChatHeader />
+      <ChatHeader name={name} from={from} to={to} />
       <FlatList
         data={messages}
         keyExtractor={item => item.id}

@@ -1,41 +1,112 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { ArrowLeft, MoreVertical } from 'lucide-react-native';
+import React, { useState, useRef } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  UIManager,
+  findNodeHandle,
+} from 'react-native';
+import { ArrowLeft, MoreVertical, SquarePen, Users } from 'lucide-react-native';
 import TopMenu from './TopMenu';
 
-export default function ChatHeader() {
+type ChatHeaderProps = {
+  name: string;
+  from: string;
+  to: string;
+};
+
+export default function ChatHeader({ name, from, to }: ChatHeaderProps) {
   const [menuVisible, setMenuVisible] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+  const moreIconRef = useRef<null | View>(null);
+
+  const showMenu = () => {
+    const handle = findNodeHandle(moreIconRef.current);
+    if (handle) {
+      UIManager.measure(handle, (_x, _y, _width, _height, pageX, pageY) => {
+        setMenuPosition({ x: pageX, y: pageY + _height });
+        setMenuVisible(true);
+      });
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => {}}>
-        <ArrowLeft size={24} />
-      </TouchableOpacity>
-      <View style={styles.info}>
-        <Text style={styles.title}>Trip No. 37</Text>
-        <Text>
-          From <Text style={styles.bold}>Rajajinagar</Text> to{' '}
-          <Text style={styles.bold}>Koramangala</Text>
-        </Text>
+      <View style={styles.row1}>
+        <TouchableOpacity onPress={() => {}}>
+          <ArrowLeft size={24} />
+        </TouchableOpacity>
+        <Text style={styles.title}>{name}</Text>
+        <SquarePen size={24} />
       </View>
-      <TouchableOpacity onPress={() => setMenuVisible(true)}>
-        <MoreVertical size={24} />
-      </TouchableOpacity>
 
-      {menuVisible && <TopMenu onClose={() => setMenuVisible(false)} />}
+      <View style={styles.row2}>
+        <TouchableOpacity style={styles.avatar}>
+          <Users size={24} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.subText}>
+          From <Text style={styles.bold}>{from}</Text>
+          {'\n'}
+          To <Text style={styles.bold}>{to}</Text>
+        </Text>
+        <TouchableOpacity ref={moreIconRef} onPress={showMenu}>
+          <MoreVertical size={24} />
+        </TouchableOpacity>
+        {menuVisible && (
+          <TopMenu
+            x={menuPosition.x}
+            y={menuPosition.y}
+            onClose={() => setMenuVisible(false)}
+          />
+        )}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
+    flexDirection: 'column',
+    padding: 16,
+    gap: 16,
     borderBottomWidth: 1,
-    borderColor: '#eee',
+    borderColor: '#E5E5E0',
   },
-  info: { flex: 1, marginLeft: 12 },
-  title: { fontSize: 18, fontWeight: 'bold' },
-  bold: { fontWeight: 'bold' },
+  avatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 48,
+    backgroundColor: '#008000',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  row1: {
+    flexDirection: 'row',
+    gap: 12,
+    alignItems: 'center',
+  },
+  title: {
+    flexGrow: 1,
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 2,
+  },
+  row2: {
+    flexDirection: 'row',
+    gap: 12,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  subText: {
+    fontSize: 18,
+    color: '#444',
+    lineHeight: 22,
+    flexShrink: 1,
+    flex: 1,
+  },
+  bold: {
+    fontWeight: '800',
+    color: '#000',
+  },
 });
