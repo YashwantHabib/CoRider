@@ -83,5 +83,6 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 14,
+    fontFamily: 'Mulish-Regular',
   },
 });

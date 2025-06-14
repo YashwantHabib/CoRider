@@ -24,7 +24,12 @@ export default function ChatBubble({ message }: ChatBubbleProps) {
       <View
         style={[styles.bubble, isSelf ? styles.selfBubble : styles.otherBubble]}
       >
-        <Text style={{ color: isSelf ? '#fff' : '#000' }}>
+        <Text
+          style={{
+            color: isSelf ? '#fff' : '#000',
+            fontFamily: 'Mulish-Regular',
+          }}
+        >
           {message.message.replace(/<br>/g, '\n')}
         </Text>
       </View>

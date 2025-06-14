@@ -6,6 +6,7 @@ import {
   StyleSheet,
   UIManager,
   findNodeHandle,
+  Image,
 } from 'react-native';
 import { ArrowLeft, MoreVertical, SquarePen, Users } from 'lucide-react-native';
 import TopMenu from './TopMenu';
@@ -43,7 +44,36 @@ export default function ChatHeader({ name, from, to }: ChatHeaderProps) {
 
       <View style={styles.row2}>
         <TouchableOpacity style={styles.avatar}>
-          <Users size={24} color="#fff" />
+          <View style={styles.avatarGroup}>
+            <View style={styles.avatarRow}>
+              <Image
+                source={{
+                  uri: 'https://fastly.picsum.photos/id/819/160/160.jpg?hmac=duWXAb-022KT3VnXfDCSyr0sLwddRYoP7RMFnidof_g',
+                }}
+                style={styles.image}
+              />
+              <Image
+                source={{
+                  uri: 'https://fastly.picsum.photos/id/819/160/160.jpg?hmac=duWXAb-022KT3VnXfDCSyr0sLwddRYoP7RMFnidof_g',
+                }}
+                style={styles.image}
+              />
+            </View>
+            <View style={styles.avatarRow}>
+              <Image
+                source={{
+                  uri: 'https://fastly.picsum.photos/id/648/160/160.jpg?hmac=AqrvRqv79fFWHWjjjm_Cn7QPPJ2JVox_CLRgzISsO4o',
+                }}
+                style={styles.image}
+              />
+              <Image
+                source={{
+                  uri: 'https://fastly.picsum.photos/id/1072/160/160.jpg?hmac=IDpbpA5neYzFjtkdFmBDKXwgr-907ewXLa9lLk9JuA8',
+                }}
+                style={styles.image}
+              />
+            </View>
+          </View>
         </TouchableOpacity>
         <Text style={styles.subText}>
           From <Text style={styles.bold}>{from}</Text>
@@ -81,6 +111,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  avatarGroup: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    overflow: 'hidden',
+    backgroundColor: '#ccc',
+  },
+
+  avatarRow: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+
+  image: {
+    flex: 1,
+    backgroundColor: '#999', // Replace with `Image` and `source` for real images
+    borderWidth: 0.5,
+    borderColor: '#fff',
+  },
+
   row1: {
     flexDirection: 'row',
     gap: 12,
@@ -90,6 +140,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     fontSize: 24,
     fontWeight: '700',
+    fontFamily: 'Mulish-Regular',
     marginBottom: 2,
   },
   row2: {
@@ -99,6 +150,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   subText: {
+    fontFamily: 'Mulish-Regular',
     fontSize: 18,
     color: '#444',
     lineHeight: 22,

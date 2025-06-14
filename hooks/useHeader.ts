@@ -1,6 +1,5 @@
-// hooks/useHeader.ts
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { fetchHeaders } from '../api';
 
 export default function useHeader() {
   const [headerData, setHeaderData] = useState({
@@ -10,15 +9,18 @@ export default function useHeader() {
   });
 
   useEffect(() => {
-    axios
-      .get('https://qa.corider.in/assignment/chat?page=0')
-      .then(res => {
-        const { name, from, to } = res.data;
+    async function getHeaderData() {
+      try {
+        const data = await fetchHeaders();
+        let { name, from, to } = data;
+        name = name.replace(/\bno\.\s*/i, '').trim();
         setHeaderData({ name, from, to });
-      })
-      .catch(err => {
-        console.error('Header fetch failed', err);
-      });
+      } catch (error) {
+        console.error('Header fetch failed', error);
+      }
+    }
+
+    getHeaderData();
   }, []);
 
   return headerData;
